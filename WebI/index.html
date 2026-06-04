@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Verificação</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="box">
+    <h2>Sistema de Verificação</h2>
+    <input type="text" placeholder="Nome">
+    <input type="password" placeholder="Senha">
+    <button id="btn">Finalizar</button>
+  </div>
+
+  <div class="segredo">
+    <p>Espere!! </p>
+    <p>Não clique nesse botão!</p>
+    <img id="bomba" src="objetos/botao.png">
+  </div>
+
+  <audio id="somExplosao" src="objetos/Explosao.mpeg"></audio>
+  <audio id="vaiExplodir" src="objetos/vaiExplodir.mp3"></audio>
+  
+  <script>
+    const btn = document.getElementById("btn");
+    const bomba = document.getElementById("bomba");
+    const som = document.getElementById("somExplosao");
+    const vaiEx = document.getElementById("vaiExplodir");
+
+    let clicou = false;
+    let tentativas = 0;
+    let contar = 0;
+
+    
+
+    btn.addEventListener("click", () => {
+        contar++
+      if (!clicou) {
+        clicou = true;
+
+        btn.classList.add("animar");
+
+        setTimeout(() => {
+          btn.classList.remove("animar");
+          btn.addEventListener("mouseover", fugir);
+        }, 3000);
+
+        setTimeout(() => {
+            alert("Ocorreu um erro, tente novamente");
+        }, 3000);
+    }
+});
+
+btn.addEventListener("click", () => {
+    if (contar > 1) {
+        alert("Parabéns! Você verificou!! 🥳🥳🪇");
+    }
+     });
+     
+function fugir() {
+  tentativas++;
+
+  document.body.appendChild(btn);
+
+  const btnWidth = btn.offsetWidth;
+  const btnHeight = btn.offsetHeight;
+
+  const x = Math.random() * (window.innerWidth - btnWidth);
+  const y = Math.random() * (window.innerHeight - btnHeight);
+
+  btn.style.position = "absolute";
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+
+  let frases;
+
+  if (tentativas < 20) {
+    frases = [
+      "quase...",
+      "tenta de novo",
+      "não foi dessa vez",
+      "kkkkk"
+    ];
+  } else {
+    frases = [
+      "desiste 😭",
+      "essa foi por pouco!",
+      "não vai conseguir",
+      "aceita a derrota",
+      "vai rolar a página"
+    ];
+  }
+
+  btn.innerText = frases[Math.floor(Math.random() * frases.length)];
+}
+
+
+    bomba.addEventListener("click", () => {
+
+      // som
+      if (vaiEx) {
+        vaiEx.currentTime = 0;
+        vaiEx.play().catch(() => {});
+      };
+      
+
+      const rect = bomba.getBoundingClientRect();
+
+      const explosao = document.createElement("img");
+      setTimeout(() => {
+
+          explosao.src = "objetos/explodiu.gif";
+          
+setTimeout(() => {
+
+  const explosao = document.createElement("img");
+  explosao.src = "objetos/explodiu.gif";
+
+  explosao.style.position = "fixed";
+  explosao.style.top = "-15rem";
+  explosao.style.alignItems = "center";
+  explosao.style.width = "auto";
+  explosao.style.height = "110rem";
+  explosao.style.objectFit = "cover";
+  explosao.style.zIndex = "9999";
+  explosao.style.pointerEvents = "none";
+
+  document.body.appendChild(explosao);
+
+
+  document.body.style.transition = "0.1s";
+  document.body.style.transform = "translate(10px, -10px)";
+
+  setTimeout(() => {
+    document.body.style.transform = "translate(0,0)";
+  }, 150);
+
+  setTimeout(() => {
+    explosao.remove();
+  }, 3400);
+
+}, 6100);
+      })});
+  </script>
+
+</body>
+</html>
+
+
+
+
